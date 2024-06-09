@@ -68,6 +68,22 @@ def save_command():
                     Website_Entry.delete(0,END)
                     Email_Entry.delete(0,END)
                     password_Entry.delete(0,END)
+#---------------------------------search command ------------------------#
+
+def search_command():
+    web = Website_Entry.get()
+    try :
+        with open ("Password.json","r") as record:
+            elements=json.load(record)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message=f"No Data File Found")
+    else:
+
+        if web in elements:
+            email=elements[web]["email"]
+            password=elements[web]["password"]
+            messagebox.showinfo(title=f"{web}",message=f" email= {email} , password={password}")
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 from tkinter import *
@@ -119,5 +135,8 @@ generate_password.grid(row=3,column=2)
 
 Add_button=Button(text="Add",command=save_command)
 Add_button.grid(row=4,column=1,columnspan=2)
+
+Search_Button=Button(text="search",command=search_command)
+Search_Button.grid(row=1,column=3,columnspan=2)
 
 window.mainloop()
